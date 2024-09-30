@@ -2,12 +2,11 @@ import { SafeScreen } from '@/components/template';
 import {
   View,
   Text,
-  ScrollView,
   ActivityIndicator,
-  RefreshControl,
   TouchableOpacity,
+  FlatList,
 } from 'react-native';
-import { AddUserForm } from '@/components';
+import { AddUserForm, UserListItem } from '@/components';
 import useHomePage from './useHomePage';
 
 interface IUser {
@@ -24,15 +23,22 @@ function HomePage() {
     data,
     layout,
     gutters,
-    fonts,
     backgrounds,
-    borders,
     onPullToRefresh,
     addUserModalRef,
-    navigation,
     refetch,
     onRefresh,
   } = useHomePage();
+  const renderUserItem = ({ item }: { item: IUser }) => {
+    return (
+      <UserListItem
+        name={item.name}
+        age={item.age}
+        email={item.email}
+        id={item.id}
+      />
+    );
+  };
   if (loading || onPullToRefresh)
     return (
       <View
@@ -62,17 +68,13 @@ function HomePage() {
     );
   return (
     <SafeScreen>
-      <ScrollView
-        contentContainerStyle={[
+      <View
+        style={[
           layout.flexGrow_1,
           layout.justifyCenter,
           layout.itemsCenter,
           gutters.paddingHorizontal_24,
         ]}
-        showsVerticalScrollIndicator={false}
-        refreshControl={
-          <RefreshControl refreshing={onPullToRefresh} onRefresh={onRefresh} />
-        }
       >
         <View
           style={[
@@ -100,45 +102,16 @@ function HomePage() {
             <Text style={{ fontSize: 20 }}>+</Text>
           </TouchableOpacity>
         </View>
-        {data.allUsers.nodes.map((item: IUser) => (
-          <TouchableOpacity
-            key={item.id}
-            style={[
-              gutters.marginBottom_16,
-              borders.w_1,
-              borders.purple500,
-              borders.rounded_16,
-              layout.fullWidth,
-            ]}
-            onPress={() => {
-              navigation.navigate('UserDetails', {
-                userID: item.id,
-              });
-            }}
-          >
-            <View
-              style={[
-                layout.row,
-                layout.itemsCenter,
-                backgrounds.red500,
-                gutters.padding_12,
-                borders.roundedTop_16,
-              ]}
-            >
-              <Text style={[fonts.bold, fonts.white]}>{item.id}</Text>
-              <Text style={[fonts.bold, fonts.white, gutters.paddingLeft_24]}>
-                {item.name}
-              </Text>
-            </View>
-
-            <Text style={[gutters.paddingHorizontal_12, gutters.paddingTop_12]}>
-              {item.age}
-            </Text>
-            <Text style={[gutters.padding_12]}>{item.email}</Text>
-          </TouchableOpacity>
-        ))}
         <AddUserForm ref={addUserModalRef} updateData={refetch} />
-      </ScrollView>
+      </View>
+      <FlatList
+        data={data.allUsers.nodes}
+        renderItem={renderUserItem}
+        refreshing={onPullToRefresh}
+        onRefresh={onRefresh}
+        contentContainerStyle={[gutters.paddingHorizontal_16]}
+        keyExtractor={(item) => item.id.toString()}
+      />
     </SafeScreen>
   );
 }

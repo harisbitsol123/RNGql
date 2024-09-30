@@ -21,7 +21,7 @@ interface IProps {
 }
 const AddUserModal = (props: IProps, ref: React.Ref<IModalRef>) => {
   const [isVisible, setIsVisible] = useState(false);
-  const { gutters, layout, backgrounds, borders, colors } = useTheme();
+  const { gutters, layout, borders, colors } = useTheme();
   const styles = useStyles();
   const { updateData } = props;
 
@@ -53,8 +53,7 @@ const AddUserModal = (props: IProps, ref: React.Ref<IModalRef>) => {
     'https://www.kasandbox.org/programming-images/avatars/leaf-red.png',
   ];
 
-  const [addUser, { data: addUserData, loading: addUserLoading }] =
-    useMutation(ADD_USER);
+  const [addUser] = useMutation(ADD_USER);
 
   useImperativeHandle(ref, () => ({
     show() {
