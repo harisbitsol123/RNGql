@@ -14,7 +14,8 @@ type UserDetailsScreenNavigationProp = StackNavigationProp<
   'UserDetails'
 >;
 export default () => {
-  const { layout, gutters, fonts, backgrounds, borders } = useTheme();
+  const { layout, gutters, fonts, backgrounds, borders, variant, changeTheme } =
+    useTheme();
   const [onPullToRefresh, setOnPullToRefresh] = useState<boolean>(false);
   const addUserModalRef = useRef<IModalRef>(null);
 
@@ -49,6 +50,8 @@ export default () => {
     onPullToRefresh,
     addUserModalRef,
     navigation,
+    variant,
+    changeTheme,
     refetch,
     onRefresh,
   };

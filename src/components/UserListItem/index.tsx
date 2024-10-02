@@ -50,10 +50,16 @@ const UserListItem = (props: IUser) => {
         </Text>
       </View>
 
-      <Text style={[gutters.paddingHorizontal_12, gutters.paddingTop_12]}>
+      <Text
+        style={[
+          gutters.paddingHorizontal_12,
+          gutters.paddingTop_12,
+          fonts.gray800,
+        ]}
+      >
         {age}
       </Text>
-      <Text style={[gutters.padding_12]}>{email}</Text>
+      <Text style={[gutters.padding_12, fonts.gray800]}>{email}</Text>
     </TouchableOpacity>
   );
 };

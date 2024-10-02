@@ -30,14 +30,10 @@ const UserDetailsScreen = () => {
   const { data, loading, error } = useQuery(GET_USER_BY_ID, {
     variables: { searchKey: userID },
   });
-  const [
-    updateUser,
-    { data: mutationData, loading: updateLoading, error: updateError },
-  ] = useMutation(UPDATE_USER_BY_ID);
-  const [
-    deleteUser,
-    { data: deleteData, loading: deleteLoading, error: deleteError },
-  ] = useMutation(DELETE_USER_BY_ID);
+  const [updateUser, { loading: updateLoading, error: updateError }] =
+    useMutation(UPDATE_USER_BY_ID);
+  const [deleteUser, { loading: deleteLoading, error: deleteError }] =
+    useMutation(DELETE_USER_BY_ID);
 
   const isLoading = loading || updateLoading || deleteLoading;
 
@@ -96,17 +92,38 @@ const UserDetailsScreen = () => {
         </View>
       )}
       {error && (
-        <View style={[layout.flex_1, backgrounds.gray100]}>
+        <View
+          style={[
+            layout.flex_1,
+            backgrounds.gray100,
+            layout.justifyCenter,
+            layout.itemsCenter,
+          ]}
+        >
           <Text>{error?.message}</Text>
         </View>
       )}
       {updateError && (
-        <View style={[layout.flex_1, backgrounds.gray100]}>
+        <View
+          style={[
+            layout.flex_1,
+            backgrounds.gray100,
+            layout.justifyCenter,
+            layout.itemsCenter,
+          ]}
+        >
           <Text>{updateError?.message}</Text>
         </View>
       )}
       {deleteError && (
-        <View style={[layout.flex_1, backgrounds.gray100]}>
+        <View
+          style={[
+            layout.flex_1,
+            backgrounds.gray100,
+            layout.justifyCenter,
+            layout.itemsCenter,
+          ]}
+        >
           <Text>{deleteError?.message}</Text>
         </View>
       )}

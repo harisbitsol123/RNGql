@@ -26,6 +26,10 @@ function HomePage() {
     backgrounds,
     onPullToRefresh,
     addUserModalRef,
+    variant,
+    fonts,
+    borders,
+    changeTheme,
     refetch,
     onRefresh,
   } = useHomePage();
@@ -39,6 +43,10 @@ function HomePage() {
       />
     );
   };
+  const onChangeTheme = () => {
+    changeTheme(variant === 'default' ? 'dark' : 'default');
+  };
+
   if (loading || onPullToRefresh)
     return (
       <View
@@ -70,40 +78,51 @@ function HomePage() {
     <SafeScreen>
       <View
         style={[
-          layout.flexGrow_1,
-          layout.justifyCenter,
+          layout.row,
           layout.itemsCenter,
-          gutters.paddingHorizontal_24,
+          layout.justifyBetween,
+          layout.fullWidth,
+          gutters.padding_24,
         ]}
       >
-        <View
+        <Text style={[{ fontSize: 24, fontWeight: 'bold' }, fonts.gray800]}>
+          Users List
+        </Text>
+        <TouchableOpacity
           style={[
-            layout.row,
-            layout.itemsCenter,
-            layout.justifyBetween,
-            layout.fullWidth,
-            gutters.paddingVertical_16,
+            {
+              justifyContent: 'center',
+              alignItems: 'center',
+              padding: 6,
+              borderRadius: 10,
+            },
+            borders.gray800,
+            borders.w_1,
           ]}
+          onPress={onChangeTheme}
         >
-          <Text style={[{ fontSize: 24, fontWeight: 'bold' }]}>Users List</Text>
-          <TouchableOpacity
-            style={{
+          <Text style={[{ fontSize: 20 }, fonts.gray800]}>Theme</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={[
+            {
               width: 40,
               height: 40,
-              borderWidth: 1,
               justifyContent: 'center',
               alignItems: 'center',
               borderRadius: 20,
-            }}
-            onPress={() => {
-              addUserModalRef.current?.show();
-            }}
-          >
-            <Text style={{ fontSize: 20 }}>+</Text>
-          </TouchableOpacity>
-        </View>
-        <AddUserForm ref={addUserModalRef} updateData={refetch} />
+            },
+            borders.gray800,
+            borders.w_1,
+          ]}
+          onPress={() => {
+            addUserModalRef.current?.show();
+          }}
+        >
+          <Text style={[{ fontSize: 20 }, fonts.gray800]}>+</Text>
+        </TouchableOpacity>
       </View>
+      <AddUserForm ref={addUserModalRef} updateData={refetch} />
       <FlatList
         data={data.allUsers.nodes}
         renderItem={renderUserItem}
